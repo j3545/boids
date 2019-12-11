@@ -20,10 +20,15 @@ function update(){
 }
 
 function init(){
+    reset();
+    requestAnimationFrame(animate);
+}
+
+function reset(){
+    flock = [];
     for(let i = 0; i < 100; i++){
         flock.push(new Boid(canvas.width/2, canvas.height/2, 10, 10));
     }
-    requestAnimationFrame(animate);
 }
 
 
@@ -35,3 +40,7 @@ function animate(){
 }
 
 init();
+
+document.getElementsByClassName('reset')[0].addEventListener('click',function(){
+    reset();
+});
