@@ -1,12 +1,13 @@
 class Boid{
     constructor(x,y,width,height){
-        this.x = y;
-        this.y = x;
         this.width = width;
         this.height = height;
 
-        this.vx = 0;
-        this.vy = 0;
+        this.position = new Vector();
+        this.velocity = new Vector();        
+
+        this.position.x = x;
+        this.position.y = y;
     }
 
     /**
@@ -14,29 +15,22 @@ class Boid{
      * 
      * boids try to fly towards the centre of mass of neighboring boids
      * 
-     * @param {array} flock array of boids
+     * @param {boid array} flock array of boids
      */
     rule1(flock){
-        let perceivedCenter = {
-            x:0,
-            y:0
-        };
+        let perceivedCenter = new Vector();
         for (const boid of flock) {
             if(this != boid){
-                perceivedCenter.x += boid.x,
-                perceivedCenter.y += boid.y
+                perceivedCenter = perceivedCenter.add(boid.position)
             }
-            
         }
+        perceivedCenter = perceivedCenter.divide(flock.length-1);
 
-        perceivedCenter.x = perceivedCenter.x/(flock.length-1);
-        perceivedCenter.y = perceivedCenter.y/(flock.length-1);
+        perceivedCenter = perceivedCenter.subtract(this.position)
 
-        perceivedCenter.x = (perceivedCenter.x - this.x)/100;
-        perceivedCenter.y = (perceivedCenter.y - this.y)/100;
+        perceivedCenter = perceivedCenter.divide(100)
         
         return perceivedCenter;
-        
     }
 
     /**
@@ -47,20 +41,18 @@ class Boid{
      * @param {array} flock array of boids
      */
     rule2(flock){
-        let c = {
-            x:0,
-            y:0
-        }
+        let c = new Vector(0,0);
+
         for (const boid of flock) {
             if(this != boid){
-                let a = boid.x - this.x;
-                let b = boid.y - this.y;
-                let distance = Math.sqrt((a*a) + (b*b));
-                if(distance < 100){
-                    let tmpx = boid.x - this.x;
-                    let tmpy = boid.y - this.y;
-                    c.x -= tmpx;
-                    c.y -= tmpy;
+                let tmp = boid.position.subtract(this.position);
+                //get absolute value of the distance
+                let a = tmp.x;
+                let b = tmp.y;
+                let abs = Math.sqrt(a*a + b*b)
+                if(abs < 100){
+                    tmp = boid.position.subtract(this.position)
+                    c = c.subtract(tmp);
                 }
             }
         }
@@ -75,23 +67,53 @@ class Boid{
      * @param {array} flock array of boids
      */
     rule3(flock){
-        let perceivedVelocity = {
-            x:0,
-            y:0
-        }
+        let perceivedVelocity = new Vector();
+
         for (const boid of flock) {
             if(this != boid){
-                perceivedVelocity.x += boid.vx;
-                perceivedVelocity.y += boid.vy;
+                perceivedVelocity = perceivedVelocity.add(boid.velocity)
             }
         }
-        perceivedVelocity.x -= this.vx;
-        perceivedVelocity.y -= this.vy;
+        perceivedVelocity = perceivedVelocity.divide(flock.length-1)        
 
-        perceivedVelocity.x /= 8;
-        perceivedVelocity.y /= 8;
+        perceivedVelocity = perceivedVelocity.subtract(this.velocity);
+
+        perceivedVelocity = perceivedVelocity.divide(8);
 
         return perceivedVelocity;
+    }
+
+    bound_position(canvas){
+        let Xmin = 0;
+        let Xmax = canvas.width;
+        let Ymin = 0;
+        let Ymax = canvas.height;
+    
+        let v = new Vector();
+    
+        if(this.position.x < Xmin){
+            v.x = 10
+        }else if(this.position > Xmax){
+            v.x = -10
+        }else if(this.position.y < Ymin){
+            v.y = 10
+        }else if(this.position.y > Ymax){
+            v.y = -10
+        }
+    
+        return v;
+    }
+
+    limit_velocity(){
+        let vlim = 30;
+        let v = new Vector();
+        let a = this.velocity.x;
+        let b = this.velocity.y;
+        let abs = Math.sqrt(a*a + b*b)
+        if(abs > vlim){
+            let tmp = this.velocity.divide(abs);
+            this.velocity = tmp.multiply(vlim);
+        }
     }
 
     update(){
@@ -101,7 +123,7 @@ class Boid{
     draw(ctx){
         ctx.beginPath();
         ctx.fillStyle = "red";
-        ctx.rect(Math.ceil(this.x), Math.ceil(this.y), this.width, this.height);
+        ctx.rect(Math.ceil(this.position.x), Math.ceil(this.position.y), this.width, this.height);
         ctx.fill();
     }
 }

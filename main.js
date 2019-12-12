@@ -13,17 +13,23 @@ function draw(){
 }
 
 function update(){
-    for(let boid of flock){
-        let rule1 = boid.rule1(flock);
-        let rule2 = boid.rule2(flock);
-        let rule3 = boid.rule3(flock);
-        //alert();
-        
-        boid.vx += rule1.x + rule2.x + rule3.x;
-        boid.vy += rule1.y + rule2.y + rule3.y;
 
-        boid.x += boid.vx;
-        boid.y += boid.vy;
+    let v1,v2,v3 = new Vector();
+
+    for(let boid of flock){
+        v1 = boid.rule1(flock);
+        v2 = boid.rule2(flock);
+        v3 = boid.rule3(flock);
+        v4 = boid.bound_position(canvas);
+
+        boid.velocity = boid.velocity.add(v1);
+        boid.velocity = boid.velocity.add(v2);
+        boid.velocity = boid.velocity.add(v3);
+        boid.velocity = boid.velocity.add(v4);
+
+        boid.limit_velocity();
+
+        boid.position = boid.position.add(boid.velocity)
     }
 }
 
