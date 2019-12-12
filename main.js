@@ -1,8 +1,8 @@
 let canvas = document.getElementById('flocking_canvas');
 let ctx = canvas.getContext('2d');
 
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let flock = [];
 
@@ -14,8 +14,16 @@ function draw(){
 
 function update(){
     for(let boid of flock){
-        boid.align(flock);
-        boid.update();
+        let rule1 = boid.rule1(flock);
+        let rule2 = boid.rule2(flock);
+        let rule3 = boid.rule3(flock);
+        //alert();
+        
+        boid.vx += rule1.x + rule2.x + rule3.x;
+        boid.vy += rule1.y + rule2.y + rule3.y;
+
+        boid.x += boid.vx;
+        boid.y += boid.vy;
     }
 }
 
@@ -27,7 +35,7 @@ function init(){
 function reset(){
     flock = [];
     for(let i = 0; i < 100; i++){
-        flock.push(new Boid(canvas.width/2, canvas.height/2, 10, 10));
+        flock.push(new Boid(randomMinMax(10, 1000), randomMinMax(10, 1000), 10, 10));
     }
 }
 
