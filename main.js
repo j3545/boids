@@ -2,7 +2,7 @@ let canvas = document.getElementById('flocking_canvas');
 let ctx = canvas.getContext('2d');
 
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight/1.1;
 
 let flock = [];
 
@@ -13,23 +13,10 @@ function draw(){
 }
 
 function update(){
-
-    let v1,v2,v3 = new Vector();
-
     for(let boid of flock){
-        v1 = boid.rule1(flock);
-        v2 = boid.rule2(flock);
-        v3 = boid.rule3(flock);
-        v4 = boid.bound_position(canvas);
-
-        boid.velocity = boid.velocity.add(v1);
-        boid.velocity = boid.velocity.add(v2);
-        boid.velocity = boid.velocity.add(v3);
-        boid.velocity = boid.velocity.add(v4);
-
-        boid.limit_velocity();
-
-        boid.position = boid.position.add(boid.velocity)
+        boid.edges(canvas);
+        boid.flock(flock);
+        boid.update();
     }
 }
 
@@ -41,7 +28,7 @@ function init(){
 function reset(){
     flock = [];
     for(let i = 0; i < 100; i++){
-        flock.push(new Boid(randomMinMax(10, 1000), randomMinMax(10, 1000), 10, 10));
+        flock.push(new Boid(canvas));
     }
 }
 

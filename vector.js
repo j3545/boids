@@ -67,7 +67,13 @@ Vector.prototype = {
   init: function(x, y, z) {
     this.x = x; this.y = y; this.z = z;
     return this;
-  }
+  },
+  magnitude: function(){
+    return Math.sqrt(this.x*this.x + this.y*this.y);
+  },
+  normalize: function(){
+    return new Vector(this.x/(Math.sqrt(this.x * this.x + this.y * this.y)), this.y/(Math.sqrt(this.x * this.x + this.y * this.y)));
+  },
 };
 
 Vector.negative = function(a, b) {
@@ -128,4 +134,3 @@ Vector.fromArray = function(a) {
 Vector.angleBetween = function(a, b) {
   return a.angleTo(b);
 };
-

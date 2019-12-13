@@ -1,3 +1,8 @@
+body{
+	margin:0px;
+	overflow: hidden;
+}
+
 #flocking_canvas{
     background-color: #333;
 }
