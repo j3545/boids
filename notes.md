@@ -1,4 +1,4 @@
-I wanted to create a boids simulation.
+## I wanted to create a boids simulation.
 
 I saw daniel shiffman use p5 js to do it and I tried to recreate what he did but I didnt fully understand vecors or some of their functions
 
@@ -21,3 +21,20 @@ Okay so i didnt make them bounce off the walls but I did have them go through th
 I think ill add a function to have them steer away from the walls but not right now
 
 Next I want them to draw the distance to those nearby
+
+
+
+I think the lines for the distance is really cool but I need to be able to steer them so I can align them
+
+I'll add a function to change the accleration by a givin force
+
+
+
+
+
+
+
+
+
+
+

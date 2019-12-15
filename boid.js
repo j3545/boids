@@ -11,6 +11,11 @@ class Boid{
             x: vx || randBetw(1,2)*randSign(),
             y: vy || randBetw(1,2)*randSign()
         }
+
+        this.acceleration = {
+            x:0,
+            y:0
+        }
     }
 
     lookNear(flock, ctx){
@@ -27,6 +32,11 @@ class Boid{
         }
     }
 
+    steer(force){
+        this.acceleration.x += force.x,
+        this.acceleration.y += force.y
+    }
+
     edges(worldX, worldY){
         if(this.position.x > worldX){
             this.position.x = 0;
@@ -41,13 +51,17 @@ class Boid{
     }
 
     update(){
+
+        this.velocity.x += this.acceleration.x
+        this.velocity.y += this.acceleration.y
+
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     }
 
-    draw(ctx){
+    draw(ctx, color){
         ctx.beginPath();
-        ctx.fillStyle = "black";
+        ctx.fillStyle = color;
         ctx.arc(this.position.x,this.position.y, this.radius, 0, Math.PI*2)
         ctx.fill();
     }
