@@ -12,7 +12,7 @@ let worldY = canvas.height;
 
 //flock array and count of flockSize
 let flock = [];
-let flockSize = 10;
+let flockSize = 50;
 
 //common functions
 function randBetw(min,max){
@@ -33,7 +33,7 @@ function distance(v1,v2){
 function setup(){
     for(let i = 0; i < flockSize; i++){
         //worldX/2,worldY/2,10,10
-        let boid = new Boid();
+        let boid = new Boid(randBetw(0, worldX), randBetw(0, worldY));
         flock.push(boid);
     }
     requestAnimationFrame(animate);

@@ -19,6 +19,7 @@ class Boid{
             //get distance between this and other
             if(other != this && distance(this.position, other.position) < perceptionRadius){
                 ctx.beginPath();
+                ctx.strokeStyle = "red"
                 ctx.moveTo(this.position.x, this.position.y);
                 ctx.lineTo(other.position.x, other.position.y);
                 ctx.stroke();
