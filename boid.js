@@ -1,8 +1,8 @@
 class Boid{
     constructor(x,y,radius,vx,vy){
         this.position = {
-            x: x || 10,
-            y: y || 10
+            x: x || randBetw(1,10),
+            y: y || randBetw(1,10)
         }
 
         this.radius = radius || 5;
@@ -17,7 +17,7 @@ class Boid{
         let perceptionRadius = 80;
         for(let other of flock){
             //get distance between this and other
-            if(other != this && distanceVec(this.position, other.position) < perceptionRadius){
+            if(other != this && distance(this.position, other.position) < perceptionRadius){
                 ctx.beginPath();
                 ctx.moveTo(this.position.x, this.position.y);
                 ctx.lineTo(other.position.x, other.position.y);

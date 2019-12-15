@@ -23,9 +23,9 @@ function randSign(){
 }
 
 //distance between two vectors
-function distanceVec(v1,v2){
+function distance(v1,v2){
     let a = v1.x - v2.x;
-    let b = v2.y - v2.y;
+    let b = v1.y - v2.y;
     return Math.sqrt(a*a + b*b)
 }
 
@@ -33,7 +33,7 @@ function distanceVec(v1,v2){
 function setup(){
     for(let i = 0; i < flockSize; i++){
         //worldX/2,worldY/2,10,10
-        let boid = new Boid(worldX/2, worldY/2);
+        let boid = new Boid();
         flock.push(boid);
     }
     requestAnimationFrame(animate);
