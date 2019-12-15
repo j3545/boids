@@ -1,115 +1,53 @@
 class Boid{
-    constructor(canvas){
-        this.position = new Vector(randomMinMax(0,canvas.width), randomMinMax(0,canvas.height));
-        this.velocity = new Vector.randomDirection();
-        this.velocity = this.velocity.multiply(randomMinMax(2, 3));
-        this.acceleration = new Vector();
-        this.maxForce = 1;
-        this.maxSpeed = 4;
-    }
-    
-    edges(canvas) {
-        if (this.position.x > canvas.width) {
-          this.position.x = 1;
-        } else if (this.position.x < 0) {
-          this.position.x = canvas.width-1;
+    constructor(x,y,radius,vx,vy){
+        this.position = {
+            x: x || 10,
+            y: y || 10
         }
-        if (this.position.y > canvas.height) {
-          this.position.y = 1;
-        } else if (this.position.y < 0) {
-          this.position.y = canvas.height-1;
+
+        this.radius = radius || 5;
+
+        this.velocity = {
+            x: vx || randBetw(1,2)*randSign(),
+            y: vy || randBetw(1,2)*randSign()
         }
     }
 
-    align(flock){
+    lookNear(flock, ctx){
         let perceptionRadius = 80;
-        let steering = new Vector();
-        let total = 0;
-        for(let boid of flock){
-            if(boid != this && distance(this.position, boid.position) < perceptionRadius){
-                steering = steering.add(boid.velocity);
-                total++;
+        for(let other of flock){
+            //get distance between this and other
+            if(other != this && distanceVec(this.position, other.position) < perceptionRadius){
+                ctx.beginPath();
+                ctx.moveTo(this.position.x, this.position.y);
+                ctx.lineTo(other.position.x, other.position.y);
+                ctx.stroke();
             }
         }
-        if(total > 0){
-            steering = steering.divide(total);
-            steering = steering.normalize();
-            steering = steering.multiply(this.maxSpeed);
-            steering = steering.subtract(this.velocity);
-        }
-        return steering;
     }
 
-    separation(flock){
-        let perceptionRadius = 80;
-        let steering = new Vector();
-        let total = 0;
-        for (let other of flock) {
-          let d = distance(this.position, other.position);
-          if (other != this && d < perceptionRadius){
-            let diff = this.position.subtract(other.position);
-            diff = diff.divide(d*d);
-            steering = steering.add(diff);
-            total++;
-          }
+    edges(worldX, worldY){
+        if(this.position.x > worldX){
+            this.position.x = 0;
+        }else if(this.position.x < 0){
+            this.position.x = worldX;
         }
-        if (total > 0) {
-            steering = steering.divide(total);
-            steering = steering.normalize();
-            steering = steering.multiply(this.maxSpeed);
-            steering = steering.subtract(this.velocity);
-          //steering.limit(this.maxForce);
+        if(this.position.y > worldY){
+            this.position.y = 0;
+        }else if(this.position.y < 0){
+            this.position.y = worldY;
         }
-        return steering;
-    }
-
-    cohesion(flock) {
-        let perceptionRadius = 50;
-        let steering = new Vector();
-        let total = 0;
-        for (let other of flock) {
-          let d = distance(this.position, other.position);
-          if (other != this && d < perceptionRadius) {
-            steering = steering.add(other.position);
-            total++;
-          }
-        }
-        if (total > 0) {
-            steering = steering.divide(total);
-            steering = steering.subtract(this.position);
-            steering = steering.normalize();
-            steering = steering.multiply(this.maxSpeed);
-            steering = steering.subtract(this.velocity);
-          //steering.limit(this.maxForce);
-        }
-        return steering;
-      }
-
-    flock(flock){
-        let alignment = this.align(flock);
-        let cohesion = this.cohesion(flock);
-        let separation = this.separation(flock);
-    
-        // alignment.mult(alignSlider.value());
-        // cohesion.mult(cohesionSlider.value());
-        // separation.mult(separationSlider.value());
-    
-        this.acceleration = this.acceleration.add(alignment);
-        //this.acceleration = this.acceleration.add(cohesion);
-        //this.acceleration = this.acceleration.add(separation);
     }
 
     update(){
-        this.position = this.position.add(this.velocity);
-        this.velocity = this.velocity.add(this.acceleration);
-        //this.velocity.limit(this.maxSpeed);
-        this.acceleration = this.acceleration.multiply(0);
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
     }
 
     draw(ctx){
         ctx.beginPath();
-        ctx.fillStyle = "teal";
-        ctx.arc(this.position.x, this.position.y, 5, 0, Math.PI*2)
+        ctx.fillStyle = "black";
+        ctx.arc(this.position.x,this.position.y, this.radius, 0, Math.PI*2)
         ctx.fill();
     }
 }
