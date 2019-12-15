@@ -29,7 +29,15 @@ I think the lines for the distance is really cool but I need to be able to steer
 I'll add a function to change the accleration by a givin force
 
 
+that sort of worked. it kept adding more and more acceleration on keydown
 
+i also put the things in folders since i think there are some milestones with this project that i wanted to keep and get back to easily.
+
+Ill create a folder for this new step.
+
+Changing everything to use triangles instead of dots and also having them face the way they are going
+
+i wanna do something like this: https://www.khanacademy.org/computing/computer-programming/programming-natural-simulations/programming-angular-movement/a/pointing-towards-movement
 
 
 

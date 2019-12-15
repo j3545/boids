@@ -52,7 +52,7 @@ function draw(){
     for (const boid of flock) {
         if(boid == flock[1]){
             boid.draw(ctx, "blue");
-            boid.lookNear(flock, ctx);
+            //boid.lookNear(flock, ctx);
         }else{
             boid.draw(ctx, "black");
             //boid.lookNear(flock, ctx);
@@ -68,30 +68,5 @@ function animate(){
     draw();    
     requestAnimationFrame(animate);
 }
-
-//acceleration;
-let acceleration = false;
-document.addEventListener('keydown', (e)=>{
-    if(e.key == ' ' && !acceleration){
-        let force  = {
-            x: 0.01,
-            y: 0.01
-        }
-        //store the velocity so we can go back to it
-        flock[1].steer(force);
-        acceleration = true;
-    }
-});
-
-document.addEventListener('keyup', (e)=>{
-    if(e.key == ' ' && acceleration){
-        let force  = {
-            x: -0.01,
-            y: -0.01
-        }
-        flock[1].steer(force);
-        acceleration = false;
-    }
-});
 
 setup();
