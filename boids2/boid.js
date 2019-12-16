@@ -8,8 +8,8 @@ class Boid{
         this.radius = radius || 5;
 
         this.velocity = {
-            x: vx || randBetw(0,1)*randSign(),
-            y: vy || randBetw(0,1)*randSign()
+            x: vx || randBetw(1,2) * randSign(),
+            y: vy || randBetw(1,2)*randSign()
         }
 
         this.acceleration = {
@@ -24,7 +24,7 @@ class Boid{
             //get distance between this and other
             if(other != this && distance(this.position, other.position) < perceptionRadius){
                 ctx.beginPath();
-                ctx.strokeStyle = "red"
+                ctx.strokeStyle = "white"
                 ctx.moveTo(this.position.x, this.position.y);
                 ctx.lineTo(other.position.x, other.position.y);
                 ctx.stroke();
@@ -66,23 +66,12 @@ class Boid{
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(angle);
         ctx.beginPath();
-        ctx.fillStyle = "red";
+        ctx.fillStyle = color;
         //create a triangle
-        
-
-        ctx.moveTo(this.position.x, this.position.y);
-        ctx.lineTo(this.position.x + 30, this.position.y + (-30));
-        ctx.lineTo(this.position.x + 30, this.position.y);
-
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-20, 6);
+        ctx.lineTo(-20, -6);
         ctx.fill();
         ctx.restore();
     }
 }
-
-// ctx.beginPath();
-// // the triangle        
-// ctx.fillStyle = "rgba(0,204,142,0.5)";
-// ctx.moveTo(this.position.x,this.position.y);
-// ctx.lineTo(this.position.x + 30, this.position.y + (-30));
-// ctx.lineTo(this.position.x + 30, this.position.y);
-// ctx.fill();

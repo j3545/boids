@@ -22,6 +22,14 @@ function randSign(){
     return Math.random() < 0.5 ? 1 : -1;
 }
 
+function getSign(val){
+    let sign = 1;
+    if(val < 0){
+        sign = -1;
+    }
+    return sign;
+}
+
 //distance between two vectors
 function distance(v1,v2){
     let a = v1.x - v2.x;
@@ -31,9 +39,9 @@ function distance(v1,v2){
 
 //setup the objects, called on load, calls animation to start
 function setup(){
-    for(let i = 0; i < flockSize; i++){
-        //worldX/2,worldY/2,10,10
-        let boid = new Boid(randBetw(0, worldX), randBetw(0, worldY));
+    for(let i = 0; i < 10; i++){
+        //let boid = new Boid(randBetw(0, worldX), randBetw(0, worldY), 10, 1, 1);
+        let boid = new Boid(randBetw(0,worldX), randBetw(0,worldY), 10);
         flock.push(boid);
     }
     requestAnimationFrame(animate);
@@ -49,14 +57,19 @@ function update(){
 }
 
 function draw(){
+    let i = 0;
     for (const boid of flock) {
-        if(boid == flock[1]){
-            boid.draw(ctx, "blue");
-            //boid.lookNear(flock, ctx);
+        if(i % 3 == 0){
+            boid.draw(ctx, "#4a69ff");
+            boid.lookNear(flock, ctx);
+        }else if(i % 2 == 0){
+            boid.draw(ctx, "#617bff");
+            boid.lookNear(flock, ctx);
         }else{
-            boid.draw(ctx, "black");
-            //boid.lookNear(flock, ctx);
+            boid.draw(ctx, "#9aceff");
+            boid.lookNear(flock, ctx);
         }
+        i++;
     }
     //draw boid one red
     
