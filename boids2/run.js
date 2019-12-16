@@ -47,7 +47,7 @@ function setup(){
         let boid = new Boid(randBetw(0,worldX), randBetw(0,worldY), 10, 0, 0 , color);
         flock.push(boid);
     }
-    flock[1].color = 'rgb(255,255,255)';
+    flock[1].color = 'rgb(255,0,0)';
     requestAnimationFrame(animate);
 }
 
