@@ -1,5 +1,5 @@
 class Boid{
-    constructor(x,y,radius,vx,vy){
+    constructor(x,y,radius,vx,vy,color){
         this.position = {
             x: x || randBetw(1,10),
             y: y || randBetw(1,10)
@@ -8,7 +8,7 @@ class Boid{
         this.radius = radius || 5;
 
         this.velocity = {
-            x: vx || randBetw(1,2) * randSign(),
+            x: vx || randBetw(1,2)*randSign(),
             y: vy || randBetw(1,2)*randSign()
         }
 
@@ -16,7 +16,9 @@ class Boid{
             x:0,
             y:0
         }
+        this.color = color;
     }
+    
 
     lookNear(flock, ctx){
         let perceptionRadius = 80;
@@ -59,19 +61,21 @@ class Boid{
         this.position.y += this.velocity.y;
     }
 
-    draw(ctx, color){
+    draw(ctx){
         var angle = Math.atan2(this.velocity.y, this.velocity.x);
         ctx.save();
         //rectMode(CENTER);
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(angle);
         ctx.beginPath();
-        ctx.fillStyle = color;
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.color;
         //create a triangle
         ctx.moveTo(0, 0);
         ctx.lineTo(-20, 6);
         ctx.lineTo(-20, -6);
         ctx.fill();
+        ctx.stroke
         ctx.restore();
     }
 }

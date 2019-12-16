@@ -40,9 +40,11 @@ Changing everything to use triangles instead of dots and also having them face t
 i wanna do something like this: https://www.khanacademy.org/computing/computer-programming/programming-natural-simulations/programming-angular-movement/a/pointing-towards-movement
 
 
+I got them to be triangles and also face the direction they were going.
 
+Now I want to update things, I am trying to find the distance between one point and the closest point on a line segment
 
-
+If i update my lookNearby function I could have the boid look at all the segments for each boid in the flock that are nearby!important
 
 
 

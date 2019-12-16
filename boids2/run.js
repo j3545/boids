@@ -37,11 +37,14 @@ function distance(v1,v2){
     return Math.sqrt(a*a + b*b)
 }
 
+
+
 //setup the objects, called on load, calls animation to start
 function setup(){
-    for(let i = 0; i < 10; i++){
+    for(let i = 0; i < flockSize; i++){
+        let color = 'rgb(' + 0 + ', ' + 0 + ', ' + Math.floor(255 - flockSize/255 * i) + ') ';
         //let boid = new Boid(randBetw(0, worldX), randBetw(0, worldY), 10, 1, 1);
-        let boid = new Boid(randBetw(0,worldX), randBetw(0,worldY), 10);
+        let boid = new Boid(randBetw(0,worldX), randBetw(0,worldY), 10, 0, 0 , color);
         flock.push(boid);
     }
     requestAnimationFrame(animate);
