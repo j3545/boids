@@ -22,6 +22,14 @@ class Boid{
 
     lookNear(flock, ctx){
         let perceptionRadius = 80;
+
+        if(flock[1] == this){
+            ctx.beginPath();
+            ctx.fillStyle = "rgb(50, 50, 50, 0.5)"
+            ctx.arc(this.position.x, this.position.y, perceptionRadius, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+        
         for(let other of flock){
             //get distance between this and other
             if(other != this && distance(this.position, other.position) < perceptionRadius){
@@ -75,7 +83,9 @@ class Boid{
         ctx.lineTo(-20, 6);
         ctx.lineTo(-20, -6);
         ctx.fill();
-        ctx.stroke
+        
+
+        
         ctx.restore();
     }
 }
