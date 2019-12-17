@@ -166,7 +166,7 @@ class Boid{
         this.velocity.x += separation.x
         this.velocity.y += separation.y
 
-        this.velocity = normalize(this.velocity, 9);
+        this.velocity = normalize(this.velocity, 7);
 
         this.velocity.x += this.acceleration.x
         this.velocity.y += this.acceleration.y
@@ -181,7 +181,7 @@ class Boid{
         //rectMode(CENTER);
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(angle);
-        ctx.scale(1/2,1/2)
+        
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.color;
