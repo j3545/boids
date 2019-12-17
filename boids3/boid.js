@@ -168,7 +168,7 @@ class Boid{
 
         this.velocity = normalize(this.velocity, 7);
 
-        if(mouse.down && distance(this.position, mouse) < 50){
+        if(mouse.down && distance(this.position, mouse) < 100){
             this.velocity.x -= (mouse.x - this.position.x);
             this.velocity.y -= (mouse.y - this.position.y);
         }
