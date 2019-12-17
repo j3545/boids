@@ -8,8 +8,8 @@ class Boid{
         this.radius = radius || 5;
 
         this.velocity = {
-            x: vx || randBetw(1,4)*randSign(),
-            y: vy || randBetw(1,4)*randSign()
+            x: vx || randBetw(3,6)*randSign(),
+            y: vy || randBetw(3,6)*randSign()
         }
 
         this.acceleration = {
@@ -19,6 +19,8 @@ class Boid{
         this.color = color;
     }
     
+
+    //https://gamedevelopment.tutsplus.com/tutorials/3-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
     /**
      * 
      * @param {array} flock array of boids
@@ -31,7 +33,7 @@ class Boid{
             y:0
         }
         let neighborCount = 0;
-        let perceptionRadius = 100;
+        let perceptionRadius = 50;
         for (const other of flock) {
             if(other != this){
                 if(distance(this.position, other.position) < perceptionRadius){
@@ -46,6 +48,65 @@ class Boid{
         }
         steer.x /= neighborCount;
         steer.y /= neighborCount;
+        steer = normalize(steer, 1);
+        return steer;
+    }
+
+    cohesion(){
+        let steer = {
+            x:0,
+            y:0
+        }
+        let neighborCount = 0;
+        let perceptionRadius = 100;
+        for (const other of flock) {
+            if(other != this){
+                if(distance(this.position, other.position) < perceptionRadius){
+                    steer.x += other.position.x;
+                    steer.y += other.position.y;
+                    neighborCount++;
+                }
+            }
+        }
+        if(neighborCount == 0){
+            return steer;
+        }
+        steer.x /= neighborCount;
+        steer.y /= neighborCount;
+        let point = {
+            x: (steer.x - this.position.x),
+            y: (steer.y - this.position.y)
+        }
+        steer = point;
+        steer = normalize(steer, 1);
+        return steer;
+    }
+
+    separation(){
+        let steer = {
+            x:0,
+            y:0
+        }
+        let neighborCount = 0;
+        let perceptionRadius = 70;
+        for (const other of flock) {
+            if(other != this){
+                if(distance(this.position, other.position) < perceptionRadius){
+                    steer.x += other.position.x - this.position.x;
+                    steer.y += other.position.y - this.position.y;
+                    neighborCount++;
+                }
+            }
+        }
+        if(neighborCount == 0){
+            return steer;
+        }
+        steer.x /= neighborCount;
+        steer.y /= neighborCount;
+        
+        steer.x *= -1
+        steer.y *= -1
+
         steer = normalize(steer, 1);
         return steer;
     }
@@ -93,11 +154,19 @@ class Boid{
     update(flock){
 
         let alignment = this.align(flock);
+        let cohesion = this.cohesion(flock);
+        let separation = this.separation(flock);
 
         this.velocity.x += alignment.x
         this.velocity.y += alignment.y
 
-        this.velocity = normalize(this.velocity, 5);
+        this.velocity.x += cohesion.x
+        this.velocity.y += cohesion.y
+
+        this.velocity.x += separation.x
+        this.velocity.y += separation.y
+
+        this.velocity = normalize(this.velocity, 9);
 
         this.velocity.x += this.acceleration.x
         this.velocity.y += this.acceleration.y
@@ -112,6 +181,7 @@ class Boid{
         //rectMode(CENTER);
         ctx.translate(this.position.x, this.position.y);
         ctx.rotate(angle);
+        ctx.scale(1/2,1/2)
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.color;

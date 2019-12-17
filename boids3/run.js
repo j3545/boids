@@ -12,7 +12,7 @@ let worldY = canvas.height;
 
 //flock array and count of flockSize
 let flock = [];
-let flockSize = 100;
+let flockSize = 300;
 
 //common functions
 function randBetw(min,max){

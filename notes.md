@@ -1,4 +1,4 @@
-## I wanted to create a boids simulation.
+## Boid Notes.
 
 I saw daniel shiffman use p5 js to do it and I tried to recreate what he did but I didnt fully understand vecors or some of their functions
 
@@ -46,5 +46,38 @@ Now I want to update things, I am trying to find the distance between one point 
 
 If i update my lookNearby function I could have the boid look at all the segments for each boid in the flock that are nearby!important
 
+** To get the equation of a line all we need is a point, and a slope and plug them into this
+
+ax + by + c = 0
+
+//https://www.coolmath.com/algebra/08-lines/12-finding-equation-two-points-02
+
+arbitrary (3,3), 1/3
+
+y-y1 = m(x-x1) : y-3 = 1/3(x-3) multiply all by three
+
+3y-9 = 3x-9
+
+y = 1x + 0   or   1x - 1y = 0
+y = mx + b   or   ax + by + c
 
 
+bad example but this should still work and it covers an edge case
+
+
+
+
+For now i just added an overlay menu to the homepage of boids so that I can look back at my progress on making this and 
+
+get an idea for how I learned this.
+
+
+
+I just found out that the video I was watching doesnt do collision detection between a point and a line
+
+just compares boids by a point at the center of them. 
+
+-Move the points
+
+
+I got alignment!
