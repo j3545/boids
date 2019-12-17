@@ -12,7 +12,13 @@ let worldY = canvas.height;
 
 //flock array and count of flockSize
 let flock = [];
-let flockSize = 300;
+let flockSize = 500;
+
+let mouse = {
+    x:100,
+    y:100,
+    down:false
+}
 
 //common functions
 function randBetw(min,max){
@@ -78,7 +84,7 @@ function update(){
     for(const boid of flock){
         //check if past the edge
         boid.edges(worldX, worldY);
-        boid.update(flock);
+        boid.update(flock, mouse);
     }
 }
 
@@ -105,5 +111,52 @@ function animate(){
     draw();    
     requestAnimationFrame(animate);
 }
+
+
+
+canvas.addEventListener('mousedown', (e)=>{
+    mouse.down = true;
+});
+
+canvas.addEventListener('mouseup', (e)=>{
+    mouse.down = false;
+});
+
+canvas.addEventListener('mousemove', (e)=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+})
+
+
+function touchHandler(e) {
+    if(e.touches) {
+        mouse.x = e.touches[0].pageX - canvas.offsetLeft;
+        mouse.y = e.touches[0].pageY - canvas.offsetTop;
+        e.preventDefault();
+    }
+}
+
+document.addEventListener("touchstart", ()=>{
+    mouse.down = true;
+});
+
+document.addEventListener("touchend", ()=>{
+    mouse.down = false;
+});
+
+document.addEventListener("touchmove", touchHandler);
+
+canvas.addEventListener('touchstart', (e)=>{
+    mouse.down = true;
+});
+
+canvas.addEventListener('mouseup', (e)=>{
+    mouse.down = false;
+});
+
+canvas.addEventListener('mousemove', (e)=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+})
 
 setup();
