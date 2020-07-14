@@ -180,7 +180,7 @@ class Boid{
         this.position.y += this.velocity.y;
     }
 
-    draw(ctx){
+    draw(ctx,mouse){
         var angle = Math.atan2(this.velocity.y, this.velocity.x);
         ctx.save();
         //rectMode(CENTER);
@@ -196,5 +196,13 @@ class Boid{
         ctx.lineTo(-10, -6);
         ctx.fill();
         ctx.restore();
+
+        //too slow to keep this in there
+        // if(mouse.down){
+        //     ctx.beginPath();
+        //     ctx.strokeStyle = "rgb(255,255,255,0.1)";
+        //     ctx.arc(mouse.x,mouse.y,100,0,Math.PI*2);
+        //     ctx.stroke();
+        // }
     }
 }

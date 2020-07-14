@@ -12,7 +12,7 @@ let worldY = canvas.height;
 
 //flock array and count of flockSize
 let flock = [];
-let flockSize = 300;
+let flockSize = 1000;
 
 let mouse = {
     x:100,
@@ -61,6 +61,14 @@ function distance(v1,v2){
 }
 
 
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }  
 
 //setup the objects, called on load, calls animation to start
 function setup(){
@@ -73,6 +81,7 @@ function setup(){
         }else{
             color = "#9a00ff";
         }
+        color = getRandomColor();
         let boid = new Boid(randBetw(0,worldX), randBetw(0,worldY), 10, 0, 0 , color);
         flock.push(boid);
     }
@@ -89,19 +98,8 @@ function update(){
 }
 
 function draw(){
-    let i = 0;
     for (const boid of flock) {
-        if(i % 3 == 0){            
-            boid.draw(ctx, "#FFFFFF");
-        }else if(i % 2 == 0){
-            boid.draw(ctx, "#617bff");
-        }else{
-            boid.draw(ctx, "#9aceff");
-        }
-        i++;
-    }
-    for (const boid of flock) {
-        //boid.lookNear(flock, ctx);
+        boid.draw(ctx, mouse);
     }
 }
 
