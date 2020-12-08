@@ -12,7 +12,7 @@ let worldY = canvas.height;
 
 //flock array and count of flockSize
 let flock = [];
-let flockSize = 1000;
+let flockSize = 300;
 
 let mouse = {
     x:100,
